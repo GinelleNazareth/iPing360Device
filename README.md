@@ -47,7 +47,7 @@ Input Variable                  | Type     | Range            | Description
 [PREFIX_]SPEED_OF_SOUND         | Float    | 1450m/s to 1550 m/s | The speed of sound to be used for distance calculations. This should be 1500 m/s in salt water, 1450 m/s in fresh water. The default is 1500m/s.
 [PREFIX_]TRANSMIT_FREQUENCY     | Integer  | 500kHz to 1000kHz | Acoustic operating frequency. Although the frequency range is 500kHz to 1000kHz, however it is only practical to use say 650kHz to 850kHz due to the narrow bandwidth of the acoustic receiver. The default is 750kHz
 [PREFIX_]NUMBER_OF_SAMPLES      | Integer  | 1 - 1200         | Number of samples per reflected signal. The default is 600
-[PREFIX_]LOG_ENABLE             | Integer  | 0-1              | When set to 1, creates a new log file in LOG_FILE_DIR and logs ping data to it. The file can be replayed with PingViewer. The file name format is ping360_<YYYMMDD>_<HHMMSS>.bin 
+[PREFIX_]LOG_ENABLE             | Integer  | 0-1              | When set to 1, creates a new log file in LOG_FILE_DIR and logs ping data to it. The file can be replayed with PingViewer. The file name format is ping360_YYYMMDD_HHMMSS.bin 
 [PREFIX_]DEBUG_ENABLE           | Integer  |  0-1             | Enables printing of verbose debug information, such as the complete ping data message
 
 ## Variables Published by iPing360Device
@@ -74,7 +74,7 @@ Output Variable                 | Type     | Description
 ```
   python3 -m pip install bluerobotics-ping
 ```
-  * Alternatively, install the burping module from source:
+  * Alternatively, install the brping module from source:
 ```
   git clone --single-branch --branch deployment https://github.com/bluerobotics/ping-python.git
   cd ping-python/
