@@ -1,0 +1,32 @@
+
+ServerHost = localhost
+ServerPort = 9000
+
+//------------------------------------------
+// Antler configuration  block
+ProcessConfig = ANTLER
+{
+  MSBetweenLaunches = 200
+
+  Run = MOOSDB        @ NewConsole = false
+  Run = uTimerScript  @ NewConsole = false
+}
+
+ProcessConfig = uTimerScript
+{
+   event = var=SONAR_APP_ENABLE,val=1,time=1
+   event = var=SONAR_DEBUG_ENABLE,val=1,time=1
+   event = var=SONAR_LOG_ENABLE,val=1,time=1
+   event = var=SONAR_DEVICE_COMMS_ENABLE,val=1,time=1
+   event = var=SONAR_START_ANGLE_GRADS,val=300,time=1
+   event = var=SONAR_STOP_ANGLE_GRADS,val=100,time=1
+   event = var=SONAR_NUM_STEPS,val=1,time=1
+   event = var=SONAR_GAIN,val=2,time=1
+   event = var=SONAR_RANGE,val=20,time=1
+   event = var=SONAR_SPEED_OF_SOUND,val=1450,time=1
+   event = var=SONAR_TRANSMIT_FREQUENCY,val=700,time=1
+   event = var=SONAR_NUMBER_OF_SAMPLES,val=600,time=1
+   event = var=SONAR_TRANSMIT_ENABLE,val=1,time=1
+   
+}
+
