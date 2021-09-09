@@ -18,8 +18,8 @@ ProcessConfig = uTimerScript
    event = var=SONAR_DEBUG_ENABLE,val=1,time=1
    event = var=SONAR_LOG_ENABLE,val=1,time=1
    event = var=SONAR_DEVICE_COMMS_ENABLE,val=1,time=1
-   event = var=SONAR_START_ANGLE_GRADS,val=300,time=1
-   event = var=SONAR_STOP_ANGLE_GRADS,val=100,time=1
+   event = var=SONAR_START_ANGLE_GRADS,val=175,time=1
+   event = var=SONAR_STOP_ANGLE_GRADS,val=225,time=1
    event = var=SONAR_NUM_STEPS,val=1,time=1
    event = var=SONAR_GAIN,val=2,time=1
    event = var=SONAR_RANGE,val=20,time=1
