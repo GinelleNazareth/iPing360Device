@@ -74,7 +74,7 @@ Output Variable                 | Type     | Description
 ```
   python3 -m pip install bluerobotics-ping
 ```
-  * Alternatively, install the burping module from source:
+  * Alternatively, install the brping module from source:
 ```
   git clone --single-branch --branch deployment https://github.com/bluerobotics/ping-python.git
   cd ping-python/
