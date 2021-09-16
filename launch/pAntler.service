@@ -1,0 +1,11 @@
+[Unit]
+Description=pAntler Service
+After=network.target
+
+[Service]
+Type=simple
+Restart=no
+ExecStart=/home/explorer/moos-ivp/bin/pAntler /home/explorer/iPing360Device/launch/iping360device_cfg.moos
+
+[Install]
+WantedBy=multi-user.target

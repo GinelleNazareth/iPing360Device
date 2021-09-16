@@ -1,0 +1,13 @@
+[Unit]
+Description=iPing360Device Service
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+User=explorer
+WorkingDirectory=/home/explorer/iPing360Device/src
+ExecStart=/usr/local/bin/python3.7 iping360device.py
+
+[Install]
+WantedBy=multi-user.target
