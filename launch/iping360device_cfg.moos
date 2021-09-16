@@ -8,8 +8,8 @@ ProcessConfig = ANTLER
 {
   MSBetweenLaunches = 200
 
-  Run = MOOSDB        @ NewConsole = false
-  Run = uTimerScript  @ NewConsole = false
+  Run = /home/explorer/moos-ivp/bin/MOOSDB        @ NewConsole = false
+  Run = /home/explorer/moos-ivp/bin/uTimerScript  @ NewConsole = false
 }
 
 ProcessConfig = uTimerScript
