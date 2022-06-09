@@ -7,7 +7,8 @@ Type=simple
 Restart=always
 User=explorer
 WorkingDirectory=/home/explorer/iPing360Device/src
-ExecStart=/usr/local/bin/python3.7 iping360device.py
+# Python unbuffered output (-u) flag required for printing output to journatctl log 
+ExecStart=/usr/local/bin/python3.7 -u iping360device.py
 
 [Install]
 WantedBy=multi-user.target
