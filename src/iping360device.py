@@ -301,8 +301,14 @@ def connect_to_sonar():
     elif g_port_type == 'udp':
        	print("Connecting to {0}:{1}".format(g_sonar_ip,g_udp_port)) 
         g_ping_360.connect_udp(g_sonar_ip,g_udp_port)
-    print("Initialized: %s" % g_ping_360.initialize())
-    return
+
+    initialized = g_ping_360.initialize()
+    print("Initialized: %s" % initialized)
+
+    if not initialized:
+        set_output('LAST_ERROR', 'Failed to initialize sonar')
+
+    return initialized
 
 def smallest_angle_between(angle_a_grads, angle_b_grads):
     ''' Returns the smaller of the two possible sectors between angle a & b. Result is always positive.'''
@@ -448,10 +454,12 @@ def main():
 
         elif (state == State.DB_CONNECTED.name):
             if inputs['DEVICE_COMMS_ENABLE']['val'] == 1:
-                connect_to_sonar()
-                set_output('STATE', State.READY_TO_TRANSMIT.name)
-                print ('STATE: READY_TO_TRANSMIT')
-
+                if (connect_to_sonar()):
+                    set_output('STATE', State.READY_TO_TRANSMIT.name)
+                    print ('STATE: READY_TO_TRANSMIT')
+                else:
+                    # Do nothing, attempt to connect again on the next iteration
+                    time.sleep(3.0)
         elif (state == State.READY_TO_TRANSMIT.name):
             if inputs ['DEVICE_COMMS_ENABLE']['val'] == 0:
                 # TODO: Figure out how to disconnect from sonar?
