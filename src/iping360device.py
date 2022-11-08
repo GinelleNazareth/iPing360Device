@@ -42,6 +42,7 @@ g_firmware_min_transmit_duration = 5
 g_firmware_max_transmit_duration = 500
 g_sample_period_ticks = 0 # The number of timer ticks between each data point
 g_sample_period_tick_duration = 25e-9  # Each timer tick has a duration of 25 nanoseconds
+g_sector_scan_start_time = 0
 
 g_ping360_device_data=PingMessage()
 g_ping360_logger = Ping360Logger()
@@ -145,7 +146,8 @@ outputs = {
     'LAST_ERROR' : 'None',
     'LOG_STATUS' : g_ping360_logger.status,
     'TRANSMIT_ANGLE_GRADS': g_transmit_angle_grads,
-    'TRANSMIT_ANGLE_DEGS': g_transmit_angle_grads*360/400
+    'TRANSMIT_ANGLE_DEGS': g_transmit_angle_grads*360/400,
+    'SECTOR_SCAN_TIME_SEC': 0
 
 }
 
@@ -468,6 +470,7 @@ def main():
             elif inputs['TRANSMIT_ENABLE']['val'] == 1:
                 calc_initial_transmit_angle()
                 set_output('STATE',State.TRANSMITTING.name)
+                g_sector_scan_start_time = time.time()
                 print('STATE: TRANSMITTING')
 
         elif (state == State.TRANSMITTING.name):
@@ -498,10 +501,15 @@ def main():
                     if inputs['DEBUG_ENABLE']['val']:
                         print(g_ping360_device_data.__repr__())
 
-                    # Log ping data if logging is enabled
+                    if g_ping360_device_data.angle in [inputs['START_ANGLE_GRADS']['val'], inputs['STOP_ANGLE_GRADS']['val']]:
+                        set_output('SECTOR_SCAN_TIME_SEC', time.time() - g_sector_scan_start_time)
+                        g_sector_scan_start_time = time.time()
+
+                        # Log ping data if logging is enabled
                     if inputs['LOG_ENABLE']['val']:
                         g_ping360_logger.log_message(g_ping360_device_data.msg_data)
                         set_output('LOG_STATUS', g_ping360_logger.status)
+
 
                     # Only calculate the next transmit angle if the current angle was successfully scanned, so that it
                     # will attempt to scan the same angle again on the text iteration
