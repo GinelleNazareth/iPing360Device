@@ -126,8 +126,8 @@ inputs = {
     'NUMBER_OF_SAMPLES' : {
         'var': 'NUMBER_OF_SAMPLES',
         'val': 600,
-        'min': 0,
-        'max': 600
+        'min': 200,
+        'max': 1200
     },
 
     'TRANSMIT_ENABLE' : {
@@ -468,7 +468,8 @@ def main():
                 #set_output('STATE', State.DB_CONNECTED.name)
                 pass
             elif inputs['TRANSMIT_ENABLE']['val'] == 1:
-                calc_initial_transmit_angle()
+                #calc_initial_transmit_angle()
+                g_transmit_angle_grads = inputs['START_ANGLE_GRADS']['val']
                 set_output('STATE',State.TRANSMITTING.name)
                 g_sector_scan_start_time = time.time()
                 print('STATE: TRANSMITTING')
@@ -488,12 +489,17 @@ def main():
                                               int(g_transmit_duration_usec), int(g_sample_period_ticks),
                                               int(inputs['TRANSMIT_FREQUENCY']['val']),
                                               int(inputs['NUMBER_OF_SAMPLES']['val']),1,0)
-                response = g_ping_360.wait_message([definitions.PING360_DEVICE_DATA, definitions.COMMON_NACK], 4.0)
+                transmit_time = time.time()
+                response = g_ping_360.wait_message([definitions.PING360_DEVICE_DATA, definitions.COMMON_NACK], 0.2)
+                wait_time = time.time() - transmit_time
+                #print('wait time is', wait_time)
 
                 if response is None:
                     set_output('LAST_ERROR','Timeout: No response to control command')
+                    print('Timeout: No response to control command')
                 elif response.name == 'nack':
                     set_output('LAST_ERROR', 'Control Command Nacked')
+                    print('Control Command Nacked')
                 elif response.name == 'device_data':
                     #Publish ping data
                     g_ping360_device_data = response
@@ -502,7 +508,9 @@ def main():
                         print(g_ping360_device_data.__repr__())
 
                     if g_ping360_device_data.angle in [inputs['START_ANGLE_GRADS']['val'], inputs['STOP_ANGLE_GRADS']['val']]:
-                        set_output('SECTOR_SCAN_TIME_SEC', time.time() - g_sector_scan_start_time)
+                        scan_time = time.time() - g_sector_scan_start_time
+                        print(scan_time)
+                        set_output('SECTOR_SCAN_TIME_SEC', scan_time)
                         g_sector_scan_start_time = time.time()
 
                         # Log ping data if logging is enabled
